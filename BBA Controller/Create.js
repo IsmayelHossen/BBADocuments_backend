@@ -55,7 +55,7 @@ Create_Route.post("/process_post", async function (req, res, next) {
       req.files.map(async (row, index) => {
         console.log(row.filename);
         console.log(req.body.id);
-        const query2 = `INSERT INTO  fileupload1(datentime,fileName, documents_id, f_size) VALUES('${req.body.datentime}','${row.filename}', '${document_id_result[0].ID}','${row.size}')`;
+        const query2 = `INSERT INTO  fileupload(datentime,fileName, documents_id, f_size) VALUES('${req.body.datentime}','${row.filename}', '${document_id_result[0].ID}','${row.size}')`;
         const result2 = await DBQuery(query2);
       });
     }
@@ -76,7 +76,7 @@ Create_Route.post("/add_moreFile", async function (req, res, next) {
     req.files.map(async (row, index) => {
       console.log(row.filename);
       console.log(req.body.idp);
-      const query = `INSERT INTO  fileupload1(datentime,fileName, documents_id, f_size) VALUES('${req.body.datentime}','${row.filename}', '${req.body.idp}','${row.size}')`;
+      const query = `INSERT INTO  fileupload(datentime,fileName, documents_id, f_size) VALUES('${req.body.datentime}','${row.filename}', '${req.body.idp}','${row.size}')`;
       const result2 = await DBQuery(query);
     });
     res.status(200).json({

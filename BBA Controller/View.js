@@ -19,7 +19,7 @@ View_Route.get("/getdata", async function (req, res) {
 
 View_Route.get("/filedata/:id", async function (req, res) {
   const s = req.params.id;
-  const query = `SELECT * FROM fileupload1 where documents_id =${s} `;
+  const query = `SELECT * FROM fileupload where documents_id =${s} `;
   const result = await DBQuery(query);
   res.status(200).json({
     success: true,
@@ -30,7 +30,7 @@ View_Route.get("/filedata/:id", async function (req, res) {
 View_Route.get("/docslist", async function (req, res) {
   const s = req.params.id;
 
-  const query = `SELECT documents.*,fileupload1.*  FROM fileupload1 inner join documents on documents.id=fileupload1.documents_id `;
+  const query = `SELECT documents.*,fileupload.*  FROM fileupload inner join documents on documents.id=fileupload.documents_id `;
 
   const result = await DBQuery(query);
 
