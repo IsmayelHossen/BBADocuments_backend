@@ -10,7 +10,7 @@ const DBQuery = require("../Database/Query_Builder");
 Update_Route.put("/update/:id", async function (req, res) {
   console.log(req.body);
 
-  const query = `update documents set  name='${req.body.name}',document_id='${req.body.document_id}' where id=${req.body.id}`;
+  const query = `update documents set  name='${req.body.name}',MEETING_ID='${req.body.document_id}' where id=${req.body.id}`;
   const result = await DBQuery(query);
 
   res.status(200).json({
