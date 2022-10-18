@@ -35,8 +35,9 @@ Search_Route.get(
 
 Search_Route.get("/all_documents_searchh/:search", async function (req, res) {
   const s = req.params;
+  console.log("all");
   console.log(s);
-  const query = `SELECT fileupload1.*,documents.name FROM fileupload1 join documents on fileupload1.documents_id=documents.id where lower(fileupload1.filename) like '%${s.search}%' OR lower(fileupload1.datentime) like '%${s.search}%'  OR lower(documents.name) like '%${s.search}%'  `;
+  const query = `SELECT fileupload1.*,documents.name FROM fileupload1 inner join documents on fileupload1.documents_id=documents.id where lower(fileupload1.filename) like '%${s.search}%' OR lower(fileupload1.datentime) like '%${s.search}%'  OR lower(documents.name) like '%${s.search}%'  `;
   const result = await DBQuery(query);
 
   res.status(200).json({
