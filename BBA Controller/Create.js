@@ -44,7 +44,7 @@ Create_Route.post("/process_post", async function (req, res, next) {
     }
 
     console.log(req.body);
-    const query = `INSERT INTO DOCUMENTS(datentime, meeting_id, NAME,emp_id) VALUES('${req.body.datentime}','${req.body.id}', '${req.body.name}','${req.body.employee_id}')`;
+    const query = `INSERT INTO DOCUMENTS(datentime, meeting_id, NAME,emp_id,meeting_date) VALUES('${req.body.datentime}','${req.body.id}', '${req.body.name}','${req.body.employee_id}','${req.body.meeting_date}')`;
     const result = await DBQuery(query);
     const get_document_id_query = "SELECT MAX(ID) as id from documents";
     const document_id_result = await DBQuery(get_document_id_query);
