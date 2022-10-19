@@ -7,7 +7,8 @@ const DBQuery = require("../Database/Query_Builder");
 
 //get method
 View_Route.get("/getdata", async function (req, res) {
-  const query = "SELECT* from documents order  by id";
+  const query =
+    "SELECT documents.*,view_employees.* from documents join view_employees on documents.emp_id=view_employees.emp_id order  by id";
   const result = await DBQuery(query);
 
   res.status(200).json({
@@ -18,8 +19,8 @@ View_Route.get("/getdata", async function (req, res) {
 });
 
 View_Route.get("/filedata/:id", async function (req, res) {
-  const s = req.params.id;
-  const query = `SELECT * FROM fileupload where documents_id =${s} `;
+  const documents_id = req.params.id;
+  const query = `SELECT * FROM fileupload where documents_id =${documents_id} order by filename ASC `;
   const result = await DBQuery(query);
   res.status(200).json({
     success: true,
