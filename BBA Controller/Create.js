@@ -86,4 +86,13 @@ Create_Route.post("/add_moreFile", async function (req, res, next) {
   });
 });
 
+Create_Route.post("/category/add", async function (req, res, next) {
+  console.log(req.body)
+  const query = `INSERT INTO  category(category_name) VALUES('${req.body.category_name}')`;
+  const result2 = await DBQuery(query);
+  res.status(200).json({
+    success: true,
+  });
+});
+
 module.exports = Create_Route;

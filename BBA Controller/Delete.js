@@ -36,7 +36,7 @@ Delete_Route.delete("/delete/:id", async function (req, res) {
   });
 
   const query1 = `delete from fileupload where documents_id=${id}`;
-  const result1 = await DBQuery(query1)
+  const result1 = await DBQuery(query1);
 
   const query2 = `delete from documents where ID='${id}' `;
   const result2 = await DBQuery(query2);
@@ -45,5 +45,16 @@ Delete_Route.delete("/delete/:id", async function (req, res) {
     data: result2,
   });
 });
+//category delete
 
+Delete_Route.delete("/category/delete/:id", async function (req, res) {
+  const id = req.params.id;
+  console.log(id);
+  const query = `delete from category where id='${id}'`;
+  const result1 = await DBQuery(query);
+  res.status(200).json({
+    success: true,
+    message: "Deleted data suceessfully",
+  });
+});
 module.exports = Delete_Route;

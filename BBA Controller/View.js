@@ -40,5 +40,17 @@ View_Route.get("/docslist", async function (req, res) {
     data: result,
   });
 });
+//category view
+View_Route.get("/category/view", async function (req, res) {
+  const s = req.params.id;
 
+  const query = `SELECT*from category `;
+
+  const result = await DBQuery(query);
+
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+});
 module.exports = View_Route;

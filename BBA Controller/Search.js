@@ -44,5 +44,19 @@ Search_Route.get("/all_documents_search/:search", async function (req, res) {
     data: result,
   });
 });
+//category search
+
+Search_Route.get("/category/search/:search", async function (req, res) {
+  const s = req.params;
+  console.log(s);
+  // const query = `SELECT*FROM documents where lower(name) like '%${s.search}%' OR meeting_id like '%${s.search}%' OR lower(datentime) like '%${s.search}%' OR lower(emp_id) like '%${s.search}%' `;
+  const query = `SELECT*from category where lower(category_name) like '%${s.search}%'`;
+  const result = await DBQuery(query);
+
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+});
 
 module.exports = Search_Route;
