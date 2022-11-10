@@ -53,4 +53,17 @@ View_Route.get("/category/view", async function (req, res) {
     data: result,
   });
 });
+//get document last id
+View_Route.get("/getlastId/:docType", async function (req, res) {
+  const docTye = req.params.docType;
+  console.log(docTye);
+  const query = `SELECT max(meeting_id) as id from documents where name='${docTye}' `;
+
+  const result = await DBQuery(query);
+  console.log(result);
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+});
 module.exports = View_Route;

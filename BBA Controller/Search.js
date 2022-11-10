@@ -8,7 +8,7 @@ Search_Route.get("/search/:search", async function (req, res) {
   const s = req.params;
   console.log(s);
   // const query = `SELECT*FROM documents where lower(name) like '%${s.search}%' OR meeting_id like '%${s.search}%' OR lower(datentime) like '%${s.search}%' OR lower(emp_id) like '%${s.search}%' `;
-  const query = `SELECT documents.*,view_employees.* from documents join view_employees on documents.emp_id=view_employees.emp_id  where lower(documents.name) like '%${s.search}%' OR documents.meeting_id like '%${s.search}%' OR lower(documents.datentime) like '%${s.search}%' OR lower(documents.meeting_date) like '%${s.search}%'`;
+  const query = `SELECT documents.*,view_employees.* from documents join view_employees on documents.emp_id=view_employees.emp_id  where lower(documents.name) like '%${s.search}%' OR documents.meeting_id like '%${s.search}%' OR lower(documents.meeting_date) like '%${s.search}%' order by documents.meeting_id`;
   const result = await DBQuery(query);
 
   res.status(200).json({
@@ -33,17 +33,32 @@ Search_Route.get(
   }
 );
 
-Search_Route.get("/all_documents_search/:search", async function (req, res) {
-  const s = req.params;
-  console.log(s);
-  const query = `SELECT fileupload.*,documents.name,documents.meeting_date FROM fileupload inner join documents on fileupload.documents_id=documents.id where lower(fileupload.filename) like '%${s.search}%' OR lower(documents.name)  like '%${s.search}%' OR documents.meeting_date  like '%${s.search}%'  `;
-  const result = await DBQuery(query);
+Search_Route.get(
+  "/all_documents_search/:search/:filter",
+  async function (req, res) {
+    const s = req.params;
+    console.log(s);
+    const query = `SELECT fileupload.*,documents.name,documents.meeting_date,documents.meeting_id FROM fileupload inner join documents on fileupload.documents_id=documents.id where (lower(fileupload.filename) like '%${s.search}%' OR lower(documents.name)  like '%${s.search}%' OR documents.meeting_date  like '%${s.search}%' OR documents.meeting_id  like '%${s.search}%') AND documents.name='${s.filter}'  `;
+    const result = await DBQuery(query);
 
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  }
+);
+Search_Route.get("/all_documents_filter/:filter", async function (req, res) {
+  const filter = req.params.filter;
+  console.log(filter);
+  const query = `SELECT fileupload.*,documents.name,documents.meeting_date,documents.meeting_id FROM fileupload inner join documents on fileupload.documents_id=documents.id where documents.name='${filter}'     `;
+  const result = await DBQuery(query);
+  console.log(result);
   res.status(200).json({
     success: true,
     data: result,
   });
 });
+
 //category search
 
 Search_Route.get("/category/search/:search", async function (req, res) {
