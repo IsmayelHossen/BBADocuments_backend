@@ -32,7 +32,22 @@ Search_Route.get(
     });
   }
 );
+//search without filter
 
+Search_Route.get(
+  "/all_documents_search_withoutFilter/:search",
+  async function (req, res) {
+    const s = req.params;
+    console.log(s);
+    const query = `SELECT fileupload.*,documents.name,documents.meeting_date,documents.meeting_id FROM fileupload inner join documents on fileupload.documents_id=documents.id where (lower(fileupload.filename) like '%${s.search}%' OR lower(documents.name)  like '%${s.search}%' OR documents.meeting_date  like '%${s.search}%' OR documents.meeting_id  like '%${s.search}%')  `;
+    const result = await DBQuery(query);
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  }
+);
 Search_Route.get(
   "/all_documents_search/:search/:filter",
   async function (req, res) {

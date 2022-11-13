@@ -53,6 +53,20 @@ View_Route.get("/category/view", async function (req, res) {
     data: result,
   });
 });
+//category list
+
+View_Route.get("/categorylist", async function (req, res) {
+  const s = req.params.id;
+
+  const query = `SELECT*from category `;
+
+  const result = await DBQuery(query);
+
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+});
 //get document last id
 View_Route.get("/getlastId/:docType", async function (req, res) {
   const docTye = req.params.docType;
