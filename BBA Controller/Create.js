@@ -44,18 +44,25 @@ Create_Route.post("/process_post", async function (req, res, next) {
     }
 
     console.log(req.body);
-    const query = `INSERT INTO DOCUMENTS(datentime, meeting_id, NAME,emp_id,meeting_date) VALUES('${req.body.datentime}','${req.body.id}', '${req.body.name}','${req.body.employee_id}','${req.body.meeting_date}')`;
+    const { datentime, id, name, employee_id, meeting_date } = req.body;
+    // var document_tag = req.body.document_tag.replace(/'/g, "''");
+    var sumTag = "";
+    if (req.body.document_tag.length > 0) {
+      var sumTag = "";
+      req.body.document_tag.map((row) => {
+        sumTag = row.replace(/'/g, "''") + "," + sumTag;
+      });
+    }
+
+    const query = `INSERT INTO DOCUMENTS(datentime, meeting_id, NAME,emp_id,meeting_date,document_tag) VALUES('${datentime}','${id}', '${name}','${employee_id}','${meeting_date}','${sumTag}')`;
     const result = await DBQuery(query);
     const get_document_id_query = "SELECT MAX(ID) as id from documents";
     const document_id_result = await DBQuery(get_document_id_query);
 
     a = document_id_result[0].ID;
-    console.log(a);
 
     if (req.files.length > 0) {
       req.files.map(async (row, index) => {
-        console.log(row.filename);
-        console.log(req.body.id);
         const query2 = `INSERT INTO  fileupload(datentime,fileName, documents_id, f_size) VALUES('${req.body.datentime}','${row.filename}', '${document_id_result[0].ID}','${row.size}')`;
         const result2 = await DBQuery(query2);
       });
@@ -87,8 +94,9 @@ Create_Route.post("/add_moreFile", async function (req, res, next) {
 });
 
 Create_Route.post("/category/add", async function (req, res, next) {
-  console.log(req.body)
-  const query = `INSERT INTO  category(category_name) VALUES('${req.body.category_name}')`;
+  console.log(req.body);
+  const category_name = req.body.category_name.replace(/'/gi, "''");
+  const query = `INSERT INTO  category(category_name) VALUES('${category_name}')`;
   const result2 = await DBQuery(query);
   res.status(200).json({
     success: true,

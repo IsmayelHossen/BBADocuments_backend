@@ -4,7 +4,7 @@ const DBQuery = async function db_query(query) {
   if (connection == undefined) {
     connection = await oracledb.getConnection({
       user: "meeting_doc",
-      password: "Mee123",
+      password: "Meeting_doc0001",
       connectString: "192.168.3.8/orclpdb",
       // user: "system",
       // password: "system123",
@@ -17,6 +17,8 @@ const DBQuery = async function db_query(query) {
   } catch (errors) {
     console.log(errors);
     console.log("Query not executed");
+  } finally {
+    connection.close();
   }
 };
 

@@ -8,7 +8,7 @@ Search_Route.get("/search/:search", async function (req, res) {
   const s = req.params;
   console.log(s);
   // const query = `SELECT*FROM documents where lower(name) like '%${s.search}%' OR meeting_id like '%${s.search}%' OR lower(datentime) like '%${s.search}%' OR lower(emp_id) like '%${s.search}%' `;
-  const query = `SELECT documents.*,view_employees.* from documents join view_employees on documents.emp_id=view_employees.emp_id  where lower(documents.name) like '%${s.search}%' OR documents.meeting_id like '%${s.search}%' OR lower(documents.meeting_date) like '%${s.search}%' order by documents.meeting_id`;
+  const query = `SELECT documents.*,view_employees.* from documents join view_employees on documents.emp_id=view_employees.emp_id  where lower(documents.name) like '%${s.search}%' OR documents.meeting_id like '%${s.search}%' OR lower(documents.meeting_date) like '%${s.search}%' OR lower(documents.document_tag) like '%${s.search}%' order by documents.meeting_id`;
   const result = await DBQuery(query);
 
   res.status(200).json({
