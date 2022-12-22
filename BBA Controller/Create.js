@@ -47,11 +47,16 @@ Create_Route.post("/process_post", async function (req, res, next) {
     const { datentime, id, name, employee_id, meeting_date } = req.body;
     // var document_tag = req.body.document_tag.replace(/'/g, "''");
     var sumTag = "";
-    if (req.body.document_tag.length > 0) {
+    if (
+      Array.isArray(req.body.document_tag) &&
+      req.body.document_tag.length > 0
+    ) {
       var sumTag = "";
       req.body.document_tag.map((row) => {
-        sumTag = row.replace(/'/g, "''") + "," + sumTag;
+        sumTag = row.replace(/'/g, "''") + " " + sumTag;
       });
+    } else {
+      sumTag = req.body.document_tag.replace(/'/g, "''");
     }
 
     const query = `INSERT INTO DOCUMENTS(datentime, meeting_id, NAME,emp_id,meeting_date,document_tag) VALUES('${datentime}','${id}', '${name}','${employee_id}','${meeting_date}','${sumTag}')`;
